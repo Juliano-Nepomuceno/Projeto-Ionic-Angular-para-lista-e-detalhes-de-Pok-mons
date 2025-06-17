@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Pokémons</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let p of pokemons" (click)="goToDetails(p.name)">
+      <ion-thumbnail slot="start">
+        <img [src]="'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + (pokemons.indexOf(p)+1) + '.png'"/>
+      </ion-thumbnail>
+      <ion-label>{{ p.name | titlecase }}</ion-label>
+      <ion-button fill="clear" slot="end" (click)="toggleFavorite(p.name, $event)">
+        <ion-icon [name]="favoritesService.isFavorite(p.name) ? 'heart' : 'heart-outline'"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadPokemons($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Carregando..."></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
